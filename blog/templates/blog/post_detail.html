@@ -1,0 +1,71 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+	<h1 class="title">{{ post.title }}</h1>
+
+	<small>Posted at {{ post.date_added }}</small>
+
+	<p><strong>{{ post.intro }}</strong></p>
+
+	<p>{{ post.body|safe}}</p>
+	
+	</br>
+	
+	<!-- AddToAny BEGIN -->
+	<div class="a2a_kit a2a_kit_size_32 a2a_default_style">
+	<a class="a2a_dd" href="https://www.addtoany.com/share"></a>
+	<a class="a2a_button_whatsapp"></a>
+	<a class="a2a_button_linkedin"></a>
+	<a class="a2a_button_twitter"></a>
+	<a class="a2a_button_facebook"></a>
+	<a class="a2a_button_email"></a>
+	<a class="a2a_button_microsoft_teams"></a>
+	<a class="a2a_button_wechat"></a>
+	<a class="a2a_button_reddit"></a>
+	<a class="a2a_button_sms"></a>
+	<a class="a2a_button_outlook_com"></a>
+	</div>
+	<script async src="https://static.addtoany.com/menu/page.js"></script>
+	<!-- AddToAny END -->
+
+
+
+	<hr>
+
+	<h2 class="subtitle">Comments</h2>
+
+	{% for comment in post.comments.all %}
+		<article class="media">
+			<div class="media-content">
+				<div class="content">
+					<p>
+						<strong>{{ comment.name }}</strong> <small>{{ comment.date_added|timesince }} ago</small>
+						<br>
+						{{ comment.body }}
+					</p>
+				</div>
+			</div>
+		</article>
+	{% empty %}
+		<div class="notification">
+			No comments yet...
+		</div>
+	{% endfor %}
+
+	<hr>
+
+
+	<h2 class="subtitle">Add comment</h2>
+
+	<form method="post" action=".">
+		{% csrf_token %}
+
+		{{ form.as_p }}
+
+		<div class="field">
+			<div class="control">
+				<button class="button is-success">Submit</button>
+			</div>
+		</div>
+	</form>
+{% endblock %}
